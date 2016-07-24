@@ -5,7 +5,9 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-
+    using Data.Map;
+    using Data.Point;
+    
     internal class Program
     {
         private static readonly Dictionary<int, string> sheetNomenclatureScale = new Dictionary<int, string>()
@@ -41,6 +43,13 @@
                             break;
                         }
 
+                        if (!CS2005.SupportedZones.Contains(zone))
+                        {
+                            Console.WriteLine("Зоната не се поддържа!");
+
+                            break;
+                        }
+
                         Console.Write("Въведете мащаб (100000, 5000, 1000): ");
 
                         int scale;
@@ -48,6 +57,13 @@
                         if (!int.TryParse(Console.ReadLine(), out scale))
                         {
                             Console.WriteLine("Невалиден мащаб на картните листове!");
+
+                            break;
+                        }
+
+                        if (!CS2005.SupportedScales.Contains(scale))
+                        {
+                            Console.WriteLine("Мащабът не се поддържа!");
 
                             break;
                         }

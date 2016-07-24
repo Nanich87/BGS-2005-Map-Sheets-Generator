@@ -1,14 +1,11 @@
-﻿namespace CS2005
+﻿namespace CS2005.Data.Point
 {
-    using System;
-    using System.Linq;
-
     internal class XYPoint
     {
         private double x;
         private double y;
 
-        public XYPoint()
+        public XYPoint() : this(0, 0)
         {
         }
 

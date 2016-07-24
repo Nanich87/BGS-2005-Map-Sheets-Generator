@@ -1,15 +1,18 @@
-﻿namespace CS2005
+﻿namespace CS2005.Data.Point
 {
-    using System;
-    using System.Linq;
-
     internal class LatLonPoint
     {
         private double latitude;
         private double longitude;
 
-        public LatLonPoint()
+        public LatLonPoint() : this(0, 0)
         {
+        }
+
+        public LatLonPoint(double latitude, double longitude)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
         }
 
         public double Longitude

@@ -1,7 +1,6 @@
-﻿namespace CS2005
+﻿namespace CS2005.Data.Map
 {
-    using System;
-    using System.Linq;
+    using Data.Point;
 
     internal class Sheet
     {

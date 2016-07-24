@@ -42,11 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CS2005.cs" />
-    <Compile Include="LatLonPoint.cs" />
+    <Compile Include="Data\Point\LatLonPoint.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Sheet.cs" />
-    <Compile Include="XYPoint.cs" />
+    <Compile Include="Data\Map\Sheet.cs" />
+    <Compile Include="Data\Point\XYPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
