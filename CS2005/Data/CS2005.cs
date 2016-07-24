@@ -1,4 +1,4 @@
-﻿namespace CS2005
+﻿namespace CS2005.Data
 {
     using System;
     using System.Collections.Generic;
