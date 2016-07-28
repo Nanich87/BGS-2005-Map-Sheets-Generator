@@ -1,5 +1,7 @@
 ﻿namespace CS2005.Data.Point
 {
+    using System;
+
     internal class LatLonPoint
     {
         private double latitude;
@@ -11,8 +13,8 @@
 
         public LatLonPoint(double latitude, double longitude)
         {
-            this.latitude = latitude;
-            this.longitude = longitude;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
         }
 
         public double Longitude
@@ -24,6 +26,11 @@
 
             set
             {
+                if (value < -180 || value > 180)
+                {
+                    throw new ArgumentOutOfRangeException("Longitude", "Longitude cannot be less than -180 or greather than 180!");
+                }
+
                 this.longitude = value;
             }
         }
@@ -37,6 +44,11 @@
 
             set
             {
+                if (value < -90 || value > 90)
+                {
+                    throw new ArgumentOutOfRangeException("Latitude", "Latitude cannot be less than -90 or greather than 90!");
+                }
+
                 this.latitude = value;
             }
         }

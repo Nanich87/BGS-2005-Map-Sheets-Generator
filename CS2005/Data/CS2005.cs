@@ -37,6 +37,11 @@
 
         public static XYPoint Transform(LatLonPoint geographicPoint)
         {
+            if (geographicPoint == null)
+            {
+                throw new ArgumentNullException("geographicPoint", "Geographic point is null!");
+            }
+
             double gamma = (geographicPoint.Longitude - Lambda0) * Math.Sin(Fi0 * Math.PI / 180);
             double q = 0.5 * (Math.Log((1 + Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sin(geographicPoint.Latitude * Math.PI / 180))) - Math.Sqrt(E2) * Math.Log((1 + Math.Sqrt(E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sqrt(E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180))));
             double r = Re / Math.Exp(q * Math.Sin(Fi0 * Math.PI / 180));
