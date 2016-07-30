@@ -1,8 +1,8 @@
-﻿namespace CS2005.Data.Map
+﻿namespace BulgarianGeodeticSystem2005.Data.Map
 {
     using System;
     using System.Linq;
-    using CS2005.Contracts;
+    using BulgarianGeodeticSystem2005.Contracts;
 
     internal class Zone : IZone
     {

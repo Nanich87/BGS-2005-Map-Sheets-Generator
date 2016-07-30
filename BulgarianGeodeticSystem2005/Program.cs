@@ -1,10 +1,10 @@
-﻿namespace CS2005
+﻿namespace BulgarianGeodeticSystem2005
 {
     using System;
     using System.IO;
     using System.Linq;
-    using CS2005.Contracts;
-    using CS2005.Factories;
+    using BulgarianGeodeticSystem2005.Contracts;
+    using BulgarianGeodeticSystem2005.Factories;
     using Data;
 
     internal class Program

@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CS2005\CS2005.csproj">
+    <ProjectReference Include="..\CS2005\BulgarianGeodeticSystem2005.csproj">
       <Project>{3acea36c-bed3-427d-a4c2-b9a14579144d}</Project>
-      <Name>CS2005</Name>
+      <Name>BulgarianGeodeticSystem2005</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

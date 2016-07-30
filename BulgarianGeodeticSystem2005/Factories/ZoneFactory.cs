@@ -1,9 +1,9 @@
-﻿namespace CS2005.Factories
+﻿namespace BulgarianGeodeticSystem2005.Factories
 {
     using System;
     using System.Linq;
-    using CS2005.Contracts;
-    using CS2005.Data.Map;
+    using BulgarianGeodeticSystem2005.Contracts;
+    using BulgarianGeodeticSystem2005.Data.Map;
 
     internal static class ZoneFactory
     {

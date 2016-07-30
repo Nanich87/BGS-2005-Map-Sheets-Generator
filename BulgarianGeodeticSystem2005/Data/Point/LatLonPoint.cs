@@ -1,4 +1,4 @@
-﻿namespace CS2005.Data.Point
+﻿namespace BulgarianGeodeticSystem2005.Data.Point
 {
     using System;
 

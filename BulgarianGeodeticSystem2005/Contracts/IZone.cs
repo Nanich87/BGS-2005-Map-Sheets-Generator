@@ -1,4 +1,4 @@
-﻿namespace CS2005.Contracts
+﻿namespace BulgarianGeodeticSystem2005.Contracts
 {
     internal interface IZone
     {

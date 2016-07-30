@@ -1,4 +1,4 @@
-﻿namespace CS2005.Data.Map
+﻿namespace BulgarianGeodeticSystem2005.Data.Map
 {
     using System;
     using System.Collections.Generic;

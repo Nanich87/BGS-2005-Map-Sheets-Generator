@@ -1,8 +1,8 @@
-﻿namespace CS2005.Data
+﻿namespace BulgarianGeodeticSystem2005.Data
 {
     using System;
     using System.Text;
-    using CS2005.Contracts;
+    using BulgarianGeodeticSystem2005.Contracts;
     using Data.Map;
     using Data.Point;
 
@@ -64,6 +64,11 @@
             output.AppendLine("-UNITS 2 4 3 4 300 Y");
 
             int gridSize = Sheet.GetRowSizeByScale(scale);
+
+            if (gridSize == 0)
+            {
+                return output.ToString();
+            }
 
             double sheetLength = Zone.Length / gridSize;
             double sheetWidth = Zone.Width / gridSize;

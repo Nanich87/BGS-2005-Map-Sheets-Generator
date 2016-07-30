@@ -1,8 +1,9 @@
 ﻿namespace Tests
 {
     using System;
-    using CS2005.Data;
-    using CS2005.Data.Point;
+    using BulgarianGeodeticSystem2005.Data;
+    using BulgarianGeodeticSystem2005.Data.Map;
+    using BulgarianGeodeticSystem2005.Data.Point;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -38,6 +39,38 @@
         public void LatLonPoint_ShouldThrowArgumentOutOfRangeException_WhenInvalidLongitude()
         {
             LatLonPoint geographicPoint = new LatLonPoint(42, -181);
+        }
+
+        [TestMethod]
+        public void SheetGetRowSizeByScale_ShouldReturnCorrectResult_WhenMapScaleIs100000()
+        {
+            int gridSize = Sheet.GetRowSizeByScale(100000);
+
+            Assert.AreEqual(12, gridSize);
+        }
+
+        [TestMethod]
+        public void SheetGetRowSizeByScale_ShouldReturnCorrectResult_WhenMapScaleIs5000()
+        {
+            int gridSize = Sheet.GetRowSizeByScale(5000);
+
+            Assert.AreEqual(192, gridSize);
+        }
+
+        [TestMethod]
+        public void SheetGetRowSizeByScale_ShouldReturnCorrectResult_WhenMapScaleIs1000()
+        {
+            int gridSize = Sheet.GetRowSizeByScale(1000);
+
+            Assert.AreEqual(960, gridSize);
+        }
+
+        [TestMethod]
+        public void SheetGetRowSizeByScale_ShouldReturnZero_WhenInvalidMapScale()
+        {
+            int gridSize = Sheet.GetRowSizeByScale(25000);
+
+            Assert.AreEqual(0, gridSize);
         }
     }
 }
