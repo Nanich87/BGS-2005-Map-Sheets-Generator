@@ -14,7 +14,7 @@
             LatLonPoint geographicPoint = new LatLonPoint(42.466595, 23.798886);
             XYPoint projectedPoint = new XYPoint(4704874.1632373752, 360113.72085936996);
 
-            XYPoint result = CS2005.Transform(geographicPoint);
+            XYPoint result = CoordinateSystem2005.Transform(geographicPoint);
 
             Assert.AreEqual(projectedPoint, result);
         }
@@ -23,7 +23,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public void Transform_ShouldThrowNullArgumentException_WhenNullArgumentPassed()
         {
-            XYPoint result = CS2005.Transform(null);
+            XYPoint result = CoordinateSystem2005.Transform(null);
         }
 
         [TestMethod]

@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\CS2005.cs" />
+    <Compile Include="Data\CoordinateSystem2005.cs" />
+    <Compile Include="Data\Map\Zone.cs" />
     <Compile Include="Data\Point\LatLonPoint.cs" />
+    <Compile Include="Contracts\IZone.cs" />
+    <Compile Include="Factories\ZoneFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Data\Map\Sheet.cs" />

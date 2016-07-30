@@ -1,12 +1,12 @@
 ﻿namespace CS2005.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Text;
+    using CS2005.Contracts;
     using Data.Map;
     using Data.Point;
 
-    internal static class CS2005
+    internal static class CoordinateSystem2005
     {
         private const double E2 = 0.0066943800229;
 
@@ -56,58 +56,66 @@
             return projectedPoint;
         }
 
-        public static string CreateMapSheets(int sheetSize, int sheetScale, Sheet parentSheet, double parentSheetWidth, double parentSheetLength, IDictionary<int, string> sheetNomenclature = null)
+        public static string GenerateSheets(IZone zone, int scale)
         {
             StringBuilder output = new StringBuilder();
 
-            for (var sheetWidthIndex = 1; sheetWidthIndex <= sheetSize; sheetWidthIndex++)
+            output.AppendLine("OSNAP OFF");
+            output.AppendLine("-UNITS 2 4 3 4 300 Y");
+
+            int gridSize = Sheet.GetRowSizeByScale(scale);
+
+            double sheetLength = Zone.Length / gridSize;
+            double sheetWidth = Zone.Width / gridSize;
+
+            for (var sheetRowIndex = 1; sheetRowIndex <= gridSize; sheetRowIndex++)
             {
-                for (var sheetLengthIndex = 1; sheetLengthIndex <= sheetSize; sheetLengthIndex++)
+                for (var sheetColumnIndex = 1; sheetColumnIndex <= gridSize; sheetColumnIndex++)
                 {
-                    var sheetNumber = (sheetSize * sheetWidthIndex) + sheetLengthIndex - sheetSize;
+                    string sheetNumber = Sheet.GetSheetNumber(scale, sheetRowIndex, sheetColumnIndex);
 
-                    Sheet sheet = new Sheet(string.Format("{0}-{1}", parentSheet.Number, sheetNomenclature != null ? sheetNomenclature[sheetNumber] : sheetNumber.ToString()), sheetScale, sheetSize);
+                    Sheet sheet = new Sheet(string.Format("K-{0}-{1}", zone.Number, sheetNumber), scale, gridSize);
 
-                    LatLonPoint topLeftPointSheet = new LatLonPoint();
-                    topLeftPointSheet.Longitude = parentSheet.GeographicPoints[0].Longitude + (sheetLengthIndex - 1) * parentSheetLength / sheetSize;
-                    topLeftPointSheet.Latitude = parentSheet.GeographicPoints[0].Latitude - (sheetWidthIndex - 1) * parentSheetWidth / sheetSize;
+                    LatLonPoint topLeftPoint = new LatLonPoint();
+                    topLeftPoint.Longitude = zone.StartingLongitude + (sheetColumnIndex - 1) * sheetLength;
+                    topLeftPoint.Latitude = zone.StartingLatitude - (sheetRowIndex - 1) * sheetWidth;
 
-                    sheet.GeographicPoints[0] = topLeftPointSheet;
-                    sheet.ProjectedPoints[0] = CS2005.Transform(topLeftPointSheet);
+                    sheet.GeographicPoints[0] = topLeftPoint;
+                    sheet.ProjectedPoints[0] = CoordinateSystem2005.Transform(topLeftPoint);
 
-                    LatLonPoint topRightPointSheet = new LatLonPoint();
-                    topRightPointSheet.Longitude = parentSheet.GeographicPoints[0].Longitude + sheetLengthIndex * parentSheetLength / sheetSize;
-                    topRightPointSheet.Latitude = parentSheet.GeographicPoints[0].Latitude - (sheetWidthIndex - 1) * parentSheetWidth / sheetSize;
+                    LatLonPoint topRightPoint = new LatLonPoint();
+                    topRightPoint.Longitude = zone.StartingLongitude + sheetColumnIndex * sheetLength;
+                    topRightPoint.Latitude = zone.StartingLatitude - (sheetRowIndex - 1) * sheetWidth;
 
-                    sheet.GeographicPoints[1] = topRightPointSheet;
-                    sheet.ProjectedPoints[1] = CS2005.Transform(topRightPointSheet);
+                    sheet.GeographicPoints[1] = topRightPoint;
+                    sheet.ProjectedPoints[1] = CoordinateSystem2005.Transform(topRightPoint);
 
-                    LatLonPoint bottomRightPointSheet = new LatLonPoint();
-                    bottomRightPointSheet.Longitude = parentSheet.GeographicPoints[0].Longitude + sheetLengthIndex * parentSheetLength / sheetSize;
-                    bottomRightPointSheet.Latitude = parentSheet.GeographicPoints[0].Latitude - sheetWidthIndex * parentSheetWidth / sheetSize;
+                    LatLonPoint bottomRightPoint = new LatLonPoint();
+                    bottomRightPoint.Longitude = zone.StartingLongitude + sheetColumnIndex * sheetLength;
+                    bottomRightPoint.Latitude = zone.StartingLatitude - sheetRowIndex * sheetWidth;
 
-                    sheet.GeographicPoints[2] = bottomRightPointSheet;
-                    sheet.ProjectedPoints[2] = CS2005.Transform(bottomRightPointSheet);
+                    sheet.GeographicPoints[2] = bottomRightPoint;
+                    sheet.ProjectedPoints[2] = CoordinateSystem2005.Transform(bottomRightPoint);
 
-                    LatLonPoint bottomLeftPointSheet = new LatLonPoint();
-                    bottomLeftPointSheet.Longitude = parentSheet.GeographicPoints[0].Longitude + (sheetLengthIndex - 1) * parentSheetLength / sheetSize;
-                    bottomLeftPointSheet.Latitude = parentSheet.GeographicPoints[0].Latitude - sheetWidthIndex * parentSheetWidth / sheetSize;
+                    LatLonPoint bottomLeftPoint = new LatLonPoint();
+                    bottomLeftPoint.Longitude = zone.StartingLongitude + (sheetColumnIndex - 1) * sheetLength;
+                    bottomLeftPoint.Latitude = zone.StartingLatitude - sheetRowIndex * sheetWidth;
 
-                    sheet.GeographicPoints[3] = bottomLeftPointSheet;
-                    sheet.ProjectedPoints[3] = CS2005.Transform(bottomLeftPointSheet);
+                    sheet.GeographicPoints[3] = bottomLeftPoint;
+                    sheet.ProjectedPoints[3] = CoordinateSystem2005.Transform(bottomLeftPoint);
 
                     output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
                     output.AppendLine();
                     output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X);
                     output.AppendLine();
 
-                    if (sheetWidthIndex == sheetSize)
+                    if (sheetRowIndex == gridSize)
                     {
                         output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
                         output.AppendLine();
                     }
 
-                    if (sheetLengthIndex == sheetSize)
+                    if (sheetColumnIndex == gridSize)
                     {
                         output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X, sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X);
                         output.AppendLine();
@@ -117,7 +125,7 @@
 
                     output.Append("TEXT ");
                     output.Append(string.Format("{0},{1} ", sheet.ProjectedPoints[3].Y + 25, sheet.ProjectedPoints[3].X + 25));
-                    output.Append("5 ");
+                    output.AppendFormat("{0} ", scale / 1000);
                     output.AppendFormat("{0} ", textRotationAngle);
                     output.AppendLine(string.Format("{0}", sheet.Number));
                 }
