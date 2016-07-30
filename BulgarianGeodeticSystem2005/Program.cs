@@ -26,16 +26,16 @@
                     case "n":
                         Console.Write("Въведете номер на зона (34, 35): ");
 
-                        int zone;
+                        int inputZoneNumber;
 
-                        if (!int.TryParse(Console.ReadLine(), out zone))
+                        if (!int.TryParse(Console.ReadLine(), out inputZoneNumber))
                         {
                             Console.WriteLine("Невалиден номер на зона!");
 
                             break;
                         }
 
-                        if (!CoordinateSystem2005.SupportedZones.Contains(zone))
+                        if (!CoordinateSystem2005.SupportedZones.Contains(inputZoneNumber))
                         {
                             Console.WriteLine("Зоната не се поддържа!");
 
@@ -44,24 +44,25 @@
 
                         Console.Write("Въведете мащаб (100000, 5000, 1000): ");
 
-                        int scale;
+                        int inputMapScale;
 
-                        if (!int.TryParse(Console.ReadLine(), out scale))
+                        if (!int.TryParse(Console.ReadLine(), out inputMapScale))
                         {
                             Console.WriteLine("Невалиден мащаб на картните листове!");
 
                             break;
                         }
 
-                        if (!CoordinateSystem2005.SupportedScales.Contains(scale))
+                        if (!CoordinateSystem2005.SupportedScales.Contains(inputMapScale))
                         {
                             Console.WriteLine("Мащабът не се поддържа!");
 
                             break;
                         }
 
-                        IZone mapZone = ZoneFactory.CreateZone(zone);
-                        string fileContent = CoordinateSystem2005.GenerateSheets(mapZone, scale);
+                        IZone zone = ZoneFactory.CreateZone(inputZoneNumber);
+
+                        string fileContent = CoordinateSystem2005.GenerateSheets(zone, inputMapScale);
 
                         Console.Write("Въведете име на изходния SCR файл: ");
                         string fileName = Console.ReadLine();
