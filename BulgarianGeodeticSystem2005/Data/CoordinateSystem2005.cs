@@ -62,6 +62,7 @@
 
             output.AppendLine("OSNAP OFF");
             output.AppendLine("-UNITS 2 4 3 4 300 Y");
+            output.AppendLine("-UNITS 2 4 3 4 300 Y");
 
             int gridSize = Sheet.GetRowSizeByScale(scale);
 
@@ -130,7 +131,7 @@
 
                     output.Append("TEXT ");
                     output.Append(string.Format("{0},{1} ", sheet.ProjectedPoints[3].Y + 25, sheet.ProjectedPoints[3].X + 25));
-                    output.AppendFormat("{0} ", scale / 1000);
+                    output.AppendFormat("{0} ", scale / 20);
                     output.AppendFormat("{0} ", textRotationAngle);
                     output.AppendLine(string.Format("{0}", sheet.Number));
                 }
