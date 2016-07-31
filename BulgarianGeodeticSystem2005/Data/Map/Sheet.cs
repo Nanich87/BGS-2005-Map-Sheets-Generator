@@ -43,8 +43,33 @@
             }
         }
 
+        private static bool IsValidGridPosition(int scale, int field)
+        {
+            switch (scale)
+            {
+                case 1000:
+                    return (field > 0 && field <= 960);
+                case 5000:
+                    return (field > 0 && field <= 192);
+                case 100000:
+                    return (field > 0 && field <= 12);
+                default:
+                    return false;
+            }
+        }
+
         public static string GetSheetNumber(int scale, int row, int column)
         {
+            if (!Sheet.IsValidGridPosition(scale,row))
+            {
+                throw new ArgumentOutOfRangeException("row", "Invalid row");
+            }
+
+            if (!Sheet.IsValidGridPosition(scale, column))
+            {
+                throw new ArgumentOutOfRangeException("column", "Invalid column");
+            }
+
             int sheetNumber100000 = 0;
             int sheetNumber5000 = 0;
             int sheetNumber1000 = 0;
@@ -78,7 +103,7 @@
 
                     return string.Format("{0}", sheetNumber100000);
                 default:
-                    return string.Empty;
+                    throw new ArgumentOutOfRangeException("scale", "Invalid scale");
             }
         }
 

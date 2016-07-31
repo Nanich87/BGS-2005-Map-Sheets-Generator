@@ -42,16 +42,14 @@
                 throw new ArgumentNullException("geographicPoint", "Geographic point is null!");
             }
 
-            double gamma = (geographicPoint.Longitude - Lambda0) * Math.Sin(Fi0 * Math.PI / 180);
-            double q = 0.5 * (Math.Log((1 + Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sin(geographicPoint.Latitude * Math.PI / 180))) - Math.Sqrt(E2) * Math.Log((1 + Math.Sqrt(E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sqrt(E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180))));
-            double r = Re / Math.Exp(q * Math.Sin(Fi0 * Math.PI / 180));
+            double gamma = (geographicPoint.Longitude - CoordinateSystem2005.Lambda0) * Math.Sin(CoordinateSystem2005.Fi0 * Math.PI / 180);
+            double q = 0.5 * (Math.Log((1 + Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sin(geographicPoint.Latitude * Math.PI / 180))) - Math.Sqrt(CoordinateSystem2005.E2) * Math.Log((1 + Math.Sqrt(CoordinateSystem2005.E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sqrt(CoordinateSystem2005.E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180))));
+            double r = Re / Math.Exp(q * Math.Sin(CoordinateSystem2005.Fi0 * Math.PI / 180));
 
-            double x = R0 + X0 - r * Math.Cos(gamma * Math.PI / 180);
-            double y = Y0 + r * Math.Sin(gamma * Math.PI / 180);
+            double x = CoordinateSystem2005.R0 + CoordinateSystem2005.X0 - r * Math.Cos(gamma * Math.PI / 180);
+            double y = CoordinateSystem2005.Y0 + r * Math.Sin(gamma * Math.PI / 180);
 
-            XYPoint projectedPoint = new XYPoint();
-            projectedPoint.X = x;
-            projectedPoint.Y = y;
+            XYPoint projectedPoint = new XYPoint(x, y);
 
             return projectedPoint;
         }
