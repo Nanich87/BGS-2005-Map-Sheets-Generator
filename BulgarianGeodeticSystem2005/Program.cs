@@ -65,9 +65,19 @@
                         string fileContent = CoordinateSystem2005.GenerateSheets(zone, inputMapScale);
 
                         Console.Write("Въведете име на изходния SCR файл: ");
-                        string fileName = Console.ReadLine();
+                        string outputFileName = Console.ReadLine();
 
-                        File.WriteAllText(string.Format("{0}.scr", fileName), fileContent.ToString());
+                        File.WriteAllText(string.Format("{0}.scr", outputFileName), fileContent.ToString());
+
+                        Console.Write("Въведете име на входен файл с формат PNE(ZD) или натиснете Enter за да продължите: ");
+                        string inputFileName = Console.ReadLine();
+
+                        if (File.Exists(inputFileName))
+                        {
+                            var points = CoordinateSystem2005.OpenFile(inputFileName);
+
+                            // TODO: assign a sheet numbers to all points
+                        }
 
                         break;
                     case "e":

@@ -2,18 +2,73 @@
 {
     internal class XYPoint
     {
+        private string number;
         private double x;
         private double y;
+        private string description;
 
         public XYPoint()
-            : this(0, 0)
+            : this(string.Empty, 0, 0)
         {
         }
 
         public XYPoint(double x, double y)
+            : this(string.Empty, x, y)
         {
-            this.x = x;
-            this.y = y;
+        }
+
+        public XYPoint(string number, double x, double y)
+            : this(number, x, y, string.Empty)
+        {
+        }
+
+        public XYPoint(string number, double x, double y, string description)
+        {
+            this.Number = number;
+            this.X = x;
+            this.Y = y;
+            this.Description = description;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = 17;
+
+                result = result * 23 + ((number != null) ? this.number.GetHashCode() : 0);
+                result = result * 23 + this.x.GetHashCode();
+                result = result * 23 + this.y.GetHashCode();
+                result = result * 23 + ((description != null) ? this.description.GetHashCode() : 0);
+
+                return result;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+
+            set
+            {
+                this.description = value;
+            }
+        }
+
+        public string Number
+        {
+            get
+            {
+                return this.number;
+            }
+
+            set
+            {
+                this.number = value;
+            }
         }
 
         public double Y

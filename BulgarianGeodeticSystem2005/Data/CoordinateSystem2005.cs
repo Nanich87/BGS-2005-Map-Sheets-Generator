@@ -1,7 +1,10 @@
 ﻿namespace BulgarianGeodeticSystem2005.Data
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Text;
+    using System.Text.RegularExpressions;
     using BulgarianGeodeticSystem2005.Contracts;
     using Data.Map;
     using Data.Point;
@@ -52,6 +55,39 @@
             XYPoint projectedPoint = new XYPoint(x, y);
 
             return projectedPoint;
+        }
+
+        public static ICollection<XYPoint> OpenFile(string path)
+        {
+            ICollection<XYPoint> points = new List<XYPoint>();
+
+            if (!File.Exists(path))
+            {
+                return points;
+            }
+
+            using (StreamReader reader = new StreamReader(path, Encoding.Default))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string[] line = Regex.Replace(reader.ReadLine().Trim(), @"\s\s+", " ").Split(' ');
+
+                    if (line.Length < 3)
+                    {
+                        continue;
+                    }
+
+                    XYPoint point = new XYPoint();
+                    point.Number = line[0];
+                    point.X = double.Parse(line[1]);
+                    point.Y = double.Parse(line[2]);
+                    point.Description = string.Join(" ", line);
+
+                    points.Add(point);
+                }
+            }
+
+            return points;
         }
 
         public static string GenerateSheets(IZone zone, int scale)
