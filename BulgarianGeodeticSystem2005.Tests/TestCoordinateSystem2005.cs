@@ -1,6 +1,7 @@
 ﻿namespace Tests
 {
     using System;
+    using System.IO;
     using BulgarianGeodeticSystem2005.Data;
     using BulgarianGeodeticSystem2005.Data.Point;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,6 +25,12 @@
         public void Transform_ShouldThrowNullArgumentException_WhenNullArgumentPassed()
         {
             ThrowsAssert.Throws<ArgumentNullException>(() => CoordinateSystem2005.Transform(null));
+        }
+
+        [TestMethod]
+        public void OpenFile_ShouldThrowFileNotFoundException_WhenFileDoesNotExists()
+        {
+            ThrowsAssert.Throws<FileNotFoundException>(() => CoordinateSystem2005.OpenFile(string.Empty));
         }
     }
 }

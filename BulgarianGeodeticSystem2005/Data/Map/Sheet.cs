@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Data.Point;
 
     internal class Sheet
@@ -60,7 +61,7 @@
 
         public static string GetSheetNumber(int scale, int row, int column)
         {
-            if (!Sheet.IsValidGridPosition(scale,row))
+            if (!Sheet.IsValidGridPosition(scale, row))
             {
                 throw new ArgumentOutOfRangeException("row", "Invalid row");
             }
@@ -105,6 +106,28 @@
                 default:
                     throw new ArgumentOutOfRangeException("scale", "Invalid scale");
             }
+        }
+
+        public bool ContainsPoint(XYPoint point)
+        {
+            bool result = false;
+
+            int j = this.ProjectedPoints.Count() - 1;
+
+            for (int i = 0; i < this.ProjectedPoints.Count(); i++)
+            {
+                if (this.ProjectedPoints[i].Y < point.Y && this.ProjectedPoints[j].Y >= point.Y || this.ProjectedPoints[j].Y < point.Y && this.ProjectedPoints[i].Y >= point.Y)
+                {
+                    if (this.ProjectedPoints[i].X + (point.Y - this.ProjectedPoints[i].Y) / (this.ProjectedPoints[j].Y - this.ProjectedPoints[i].Y) * (this.ProjectedPoints[j].X - this.ProjectedPoints[i].X) < point.X)
+                    {
+                        result = !result;
+                    }
+                }
+
+                j = i;
+            }
+
+            return result;
         }
 
         public XYPoint[] ProjectedPoints

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BulgarianGeodeticSystem2005.Data.CoordinateSystem2005">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAAgAAAAAQAAAgGAAAAAAAQgAAgAEEAAYQAAAAAAAAA=</HashCode>
+      <FileName>Data\CoordinateSystem2005.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BulgarianGeodeticSystem2005.Data.Map.Sheet">
+    <Position X="2.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAIEAAAgAAIQIAAAkICAAACAAAAAAAAAAACAAEAABA=</HashCode>
+      <FileName>Data\Map\Sheet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BulgarianGeodeticSystem2005.Data.Map.Zone">
+    <Position X="5.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAQCAAgEAAAkBCAAAAAgAAAgAAAAAAAAA=</HashCode>
+      <FileName>Data\Map\Zone.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BulgarianGeodeticSystem2005.Data.Point.LatLonPoint">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAEAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Point\LatLonPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BulgarianGeodeticSystem2005.Data.Point.XYPoint">
+    <Position X="9.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgQAAAoEAAAAAAAAAAAIAAAABgAAAAYAA=</HashCode>
+      <FileName>Data\Point\XYPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BulgarianGeodeticSystem2005.Contracts.IZone">
+    <Position X="5.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAgACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IZone.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

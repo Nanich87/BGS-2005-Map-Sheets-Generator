@@ -76,7 +76,20 @@
                         {
                             var points = CoordinateSystem2005.OpenFile(inputFileName);
 
-                            // TODO: assign a sheet numbers to all points
+                            foreach (var point in points)
+                            {
+                                foreach (var sheet in CoordinateSystem2005.Sheets)
+                                {
+                                    if (sheet.ContainsPoint(point))
+                                    {
+                                        point.Description = string.Format("{0} {1}", point.Description, sheet.Number);
+                                    }
+                                }
+                            }
+
+                            string pointContent = string.Join(Environment.NewLine, points.Select(p => p.Description));
+
+                            File.WriteAllText(string.Format("{0}.txt", outputFileName), pointContent);
                         }
 
                         break;

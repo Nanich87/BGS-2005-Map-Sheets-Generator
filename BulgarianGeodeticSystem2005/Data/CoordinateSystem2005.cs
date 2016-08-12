@@ -22,6 +22,16 @@
         private const double X0 = 4725824.3591;
         private const double Y0 = 500000;
 
+        private static readonly ICollection<Sheet> sheets = new List<Sheet>();
+
+        public static ICollection<Sheet> Sheets
+        {
+            get
+            {
+                return sheets;
+            }
+        }
+
         public static int[] SupportedZones
         {
             get
@@ -59,12 +69,12 @@
 
         public static ICollection<XYPoint> OpenFile(string path)
         {
-            ICollection<XYPoint> points = new List<XYPoint>();
-
             if (!File.Exists(path))
             {
-                return points;
+                throw new FileNotFoundException(string.Format("Файлът {0} не може да бъде намерен!", path));
             }
+
+            ICollection<XYPoint> points = new List<XYPoint>();
 
             using (StreamReader reader = new StreamReader(path, Encoding.Default))
             {
@@ -107,6 +117,8 @@
 
             double sheetLength = Zone.Length / gridSize;
             double sheetWidth = Zone.Width / gridSize;
+
+            CoordinateSystem2005.Sheets.Clear();
 
             for (var sheetRowIndex = 1; sheetRowIndex <= gridSize; sheetRowIndex++)
             {
@@ -168,6 +180,8 @@
                     output.AppendFormat("{0} ", scale / 20);
                     output.AppendFormat("{0} ", textRotationAngle);
                     output.AppendLine(string.Format("{0}", sheet.Number));
+
+                    CoordinateSystem2005.Sheets.Add(sheet);
                 }
             }
 
