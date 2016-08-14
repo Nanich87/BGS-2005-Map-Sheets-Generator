@@ -30,21 +30,6 @@
             this.Description = description;
         }
 
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = 17;
-
-                result = result * 23 + ((number != null) ? this.number.GetHashCode() : 0);
-                result = result * 23 + this.x.GetHashCode();
-                result = result * 23 + this.y.GetHashCode();
-                result = result * 23 + ((description != null) ? this.description.GetHashCode() : 0);
-
-                return result;
-            }
-        }
-
         public string Description
         {
             get
@@ -105,7 +90,22 @@
                 return false;
             }
 
-            return (this.X == other.X && this.Y == other.Y);
+            return this.X == other.X && this.Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = 17;
+
+                result = (result * 23) + ((this.number != null) ? this.number.GetHashCode() : 0);
+                result = (result * 23) + this.x.GetHashCode();
+                result = (result * 23) + this.y.GetHashCode();
+                result = (result * 23) + ((this.description != null) ? this.description.GetHashCode() : 0);
+
+                return result;
+            }
         }
     }
 }

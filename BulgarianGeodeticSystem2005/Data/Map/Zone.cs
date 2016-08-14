@@ -9,11 +9,11 @@
         private const double ZoneWidth = 4.0;
         private const double ZoneLength = 6.0;
 
+        private readonly int[] validZoneNumbers = new int[2] { 34, 35 };
+
         private int number;
         private double startingLatitude;
         private double startingLongitude;
-
-        private readonly int[] validZoneNumbers = new int[2] { 34, 35 };
 
         public Zone(int number, double startingLatitude, double startingLongitude)
         {
@@ -73,7 +73,7 @@
 
             private set
             {
-                if (!validZoneNumbers.Contains(value))
+                if (!this.validZoneNumbers.Contains(value))
                 {
                     throw new ArgumentOutOfRangeException("Number", "Invalid zone number!");
                 }

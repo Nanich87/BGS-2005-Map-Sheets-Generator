@@ -56,11 +56,11 @@
             }
 
             double gamma = (geographicPoint.Longitude - CoordinateSystem2005.Lambda0) * Math.Sin(CoordinateSystem2005.Fi0 * Math.PI / 180);
-            double q = 0.5 * (Math.Log((1 + Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sin(geographicPoint.Latitude * Math.PI / 180))) - Math.Sqrt(CoordinateSystem2005.E2) * Math.Log((1 + Math.Sqrt(CoordinateSystem2005.E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sqrt(CoordinateSystem2005.E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180))));
+            double q = 0.5 * (Math.Log((1 + Math.Sin(geographicPoint.Latitude * Math.PI / 180)) / (1 - Math.Sin(geographicPoint.Latitude * Math.PI / 180))) - (Math.Sqrt(CoordinateSystem2005.E2) * Math.Log((1 + (Math.Sqrt(CoordinateSystem2005.E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180))) / (1 - (Math.Sqrt(CoordinateSystem2005.E2) * Math.Sin(geographicPoint.Latitude * Math.PI / 180))))));
             double r = Re / Math.Exp(q * Math.Sin(CoordinateSystem2005.Fi0 * Math.PI / 180));
 
-            double x = CoordinateSystem2005.R0 + CoordinateSystem2005.X0 - r * Math.Cos(gamma * Math.PI / 180);
-            double y = CoordinateSystem2005.Y0 + r * Math.Sin(gamma * Math.PI / 180);
+            double x = CoordinateSystem2005.R0 + CoordinateSystem2005.X0 - (r * Math.Cos(gamma * Math.PI / 180));
+            double y = CoordinateSystem2005.Y0 + (r * Math.Sin(gamma * Math.PI / 180));
 
             XYPoint projectedPoint = new XYPoint(x, y);
 
@@ -129,29 +129,29 @@
                     Sheet sheet = new Sheet(string.Format("K-{0}-{1}", zone.Number, sheetNumber), scale, gridSize);
 
                     LatLonPoint topLeftPoint = new LatLonPoint();
-                    topLeftPoint.Longitude = zone.StartingLongitude + (sheetColumnIndex - 1) * sheetLength;
-                    topLeftPoint.Latitude = zone.StartingLatitude - (sheetRowIndex - 1) * sheetWidth;
+                    topLeftPoint.Longitude = zone.StartingLongitude + ((sheetColumnIndex - 1) * sheetLength);
+                    topLeftPoint.Latitude = zone.StartingLatitude - ((sheetRowIndex - 1) * sheetWidth);
 
                     sheet.GeographicPoints[0] = topLeftPoint;
                     sheet.ProjectedPoints[0] = CoordinateSystem2005.Transform(topLeftPoint);
 
                     LatLonPoint topRightPoint = new LatLonPoint();
-                    topRightPoint.Longitude = zone.StartingLongitude + sheetColumnIndex * sheetLength;
-                    topRightPoint.Latitude = zone.StartingLatitude - (sheetRowIndex - 1) * sheetWidth;
+                    topRightPoint.Longitude = zone.StartingLongitude + (sheetColumnIndex * sheetLength);
+                    topRightPoint.Latitude = zone.StartingLatitude - ((sheetRowIndex - 1) * sheetWidth);
 
                     sheet.GeographicPoints[1] = topRightPoint;
                     sheet.ProjectedPoints[1] = CoordinateSystem2005.Transform(topRightPoint);
 
                     LatLonPoint bottomRightPoint = new LatLonPoint();
-                    bottomRightPoint.Longitude = zone.StartingLongitude + sheetColumnIndex * sheetLength;
-                    bottomRightPoint.Latitude = zone.StartingLatitude - sheetRowIndex * sheetWidth;
+                    bottomRightPoint.Longitude = zone.StartingLongitude + (sheetColumnIndex * sheetLength);
+                    bottomRightPoint.Latitude = zone.StartingLatitude - (sheetRowIndex * sheetWidth);
 
                     sheet.GeographicPoints[2] = bottomRightPoint;
                     sheet.ProjectedPoints[2] = CoordinateSystem2005.Transform(bottomRightPoint);
 
                     LatLonPoint bottomLeftPoint = new LatLonPoint();
-                    bottomLeftPoint.Longitude = zone.StartingLongitude + (sheetColumnIndex - 1) * sheetLength;
-                    bottomLeftPoint.Latitude = zone.StartingLatitude - sheetRowIndex * sheetWidth;
+                    bottomLeftPoint.Longitude = zone.StartingLongitude + ((sheetColumnIndex - 1) * sheetLength);
+                    bottomLeftPoint.Latitude = zone.StartingLatitude - (sheetRowIndex * sheetWidth);
 
                     sheet.GeographicPoints[3] = bottomLeftPoint;
                     sheet.ProjectedPoints[3] = CoordinateSystem2005.Transform(bottomLeftPoint);
