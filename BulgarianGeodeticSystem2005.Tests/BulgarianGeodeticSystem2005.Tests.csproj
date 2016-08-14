@@ -90,6 +90,7 @@
     <Compile Include="TestSheet.cs" />
     <Compile Include="TestCoordinateSystem2005.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BulgarianGeodeticSystem2005\BulgarianGeodeticSystem2005.csproj">

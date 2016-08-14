@@ -108,25 +108,25 @@
             output.AppendLine("-UNITS 2 4 3 4 300 Y");
             output.AppendLine("-UNITS 2 4 3 4 300 Y");
 
-            int gridSize = Sheet.GetRowSizeByScale(scale);
+            int zoneSize = Zone.GetZoneSizeByMapScale(scale);
 
-            if (gridSize == 0)
+            if (zoneSize == 0)
             {
                 return output.ToString();
             }
 
-            double sheetLength = Zone.Length / gridSize;
-            double sheetWidth = Zone.Width / gridSize;
+            double sheetLength = Zone.Length / zoneSize;
+            double sheetWidth = Zone.Width / zoneSize;
 
             CoordinateSystem2005.Sheets.Clear();
 
-            for (var sheetRowIndex = 1; sheetRowIndex <= gridSize; sheetRowIndex++)
+            for (var sheetRowIndex = 1; sheetRowIndex <= zoneSize; sheetRowIndex++)
             {
-                for (var sheetColumnIndex = 1; sheetColumnIndex <= gridSize; sheetColumnIndex++)
+                for (var sheetColumnIndex = 1; sheetColumnIndex <= zoneSize; sheetColumnIndex++)
                 {
-                    string sheetNumber = Sheet.GetSheetNumber(scale, sheetRowIndex, sheetColumnIndex);
+                    string sheetNumber = Zone.GetSheetNumber(scale, sheetRowIndex, sheetColumnIndex);
 
-                    Sheet sheet = new Sheet(string.Format("K-{0}-{1}", zone.Number, sheetNumber), scale, gridSize);
+                    Sheet sheet = new Sheet(string.Format("K-{0}-{1}", zone.Number, sheetNumber), scale);
 
                     LatLonPoint topLeftPoint = new LatLonPoint();
                     topLeftPoint.Longitude = zone.StartingLongitude + ((sheetColumnIndex - 1) * sheetLength);
@@ -161,13 +161,13 @@
                     output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X);
                     output.AppendLine();
 
-                    if (sheetRowIndex == gridSize)
+                    if (sheetRowIndex == zoneSize)
                     {
                         output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
                         output.AppendLine();
                     }
 
-                    if (sheetColumnIndex == gridSize)
+                    if (sheetColumnIndex == zoneSize)
                     {
                         output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X, sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X);
                         output.AppendLine();
