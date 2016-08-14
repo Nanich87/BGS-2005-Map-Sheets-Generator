@@ -62,12 +62,17 @@
 
                         IZone zone = ZoneFactory.CreateZone(inputZoneNumber);
 
-                        string fileContent = CoordinateSystem2005.GenerateSheets(zone, inputMapScale);
+                        CoordinateSystem2005.GenerateSheets(zone, inputMapScale);
 
-                        Console.Write("Въведете име на изходния SCR файл: ");
+                        Console.Write("Въведете име на изходния SCR файл или натиснете Enter за да продължите: ");
                         string outputFileName = Console.ReadLine();
 
-                        File.WriteAllText(string.Format("{0}.scr", outputFileName), fileContent.ToString());
+                        if (File.Exists(outputFileName))
+                        {
+                            string fileContent = CoordinateSystem2005.ExportSheets();
+
+                            File.WriteAllText(string.Format("{0}.scr", outputFileName), fileContent.ToString());
+                        }
 
                         Console.Write("Въведете име на входен файл с формат PNE(ZD) или натиснете Enter за да продължите: ");
                         string inputFileName = Console.ReadLine();

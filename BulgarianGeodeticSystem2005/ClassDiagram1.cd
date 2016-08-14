@@ -10,27 +10,27 @@
   <Class Name="BulgarianGeodeticSystem2005.Data.Map.Sheet">
     <Position X="2.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AQAIEAAAgAAIQIAAAkICAAACAAAAAAAAAAACAAEAABA=</HashCode>
+      <HashCode>AQAAAAAAAAAAQAAAAEICAAACAAAAAAAAAAACAAEAABA=</HashCode>
       <FileName>Data\Map\Sheet.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BulgarianGeodeticSystem2005.Data.Map.Zone">
     <Position X="5.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAQCAAgEAAAkBCAAAAAgAAAgAAAAAAAAA=</HashCode>
+      <HashCode>AQAIAAAAAAAAQCAAgkAAAkBCgAAAAgAAAgAAAEAAAAA=</HashCode>
       <FileName>Data\Map\Zone.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BulgarianGeodeticSystem2005.Data.Point.LatLonPoint">
-    <Position X="8" Y="2.5" Width="1.5" />
+    <Position X="8" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAEAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\Point\LatLonPoint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BulgarianGeodeticSystem2005.Data.Point.XYPoint">
-    <Position X="9.75" Y="2.5" Width="2" />
+    <Position X="10.5" Y="2.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgQAAAoEAAAAAAAAAAAIAAAABgAAAAYAA=</HashCode>
       <FileName>Data\Point\XYPoint.cs</FileName>

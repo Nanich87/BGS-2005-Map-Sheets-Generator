@@ -23,6 +23,7 @@
         private const double Y0 = 500000;
 
         private static readonly ICollection<Sheet> sheets = new List<Sheet>();
+        private static StringBuilder output;
 
         public static ICollection<Sheet> Sheets
         {
@@ -100,19 +101,24 @@
             return points;
         }
 
-        public static string GenerateSheets(IZone zone, int scale)
+        public static string ExportSheets()
         {
-            StringBuilder output = new StringBuilder();
+            return CoordinateSystem2005.output.ToString();
+        }
 
-            output.AppendLine("OSNAP OFF");
-            output.AppendLine("-UNITS 2 4 3 4 300 Y");
-            output.AppendLine("-UNITS 2 4 3 4 300 Y");
+        public static void GenerateSheets(IZone zone, int scale)
+        {
+            CoordinateSystem2005.output = new StringBuilder();
+
+            CoordinateSystem2005.output.AppendLine("OSNAP OFF");
+            CoordinateSystem2005.output.AppendLine("-UNITS 2 4 3 4 300 Y");
+            CoordinateSystem2005.output.AppendLine("-UNITS 2 4 3 4 300 Y");
 
             int zoneSize = Zone.GetZoneSizeByMapScale(scale);
 
             if (zoneSize == 0)
             {
-                return output.ToString();
+                return;
             }
 
             double sheetLength = Zone.Length / zoneSize;
@@ -156,36 +162,34 @@
                     sheet.GeographicPoints[3] = bottomLeftPoint;
                     sheet.ProjectedPoints[3] = CoordinateSystem2005.Transform(bottomLeftPoint);
 
-                    output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
-                    output.AppendLine();
-                    output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X);
-                    output.AppendLine();
+                    CoordinateSystem2005.output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
+                    CoordinateSystem2005.output.AppendLine();
+                    CoordinateSystem2005.output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[0].X, sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X);
+                    CoordinateSystem2005.output.AppendLine();
 
                     if (sheetRowIndex == zoneSize)
                     {
-                        output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
-                        output.AppendLine();
+                        CoordinateSystem2005.output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X, sheet.ProjectedPoints[3].Y, sheet.ProjectedPoints[3].X);
+                        CoordinateSystem2005.output.AppendLine();
                     }
 
                     if (sheetColumnIndex == zoneSize)
                     {
-                        output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X, sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X);
-                        output.AppendLine();
+                        CoordinateSystem2005.output.AppendFormat("LINE {0},{1} {2},{3} ", sheet.ProjectedPoints[1].Y, sheet.ProjectedPoints[1].X, sheet.ProjectedPoints[2].Y, sheet.ProjectedPoints[2].X);
+                        CoordinateSystem2005.output.AppendLine();
                     }
 
                     double textRotationAngle = Math.Atan2(sheet.ProjectedPoints[1].Y - sheet.ProjectedPoints[0].Y, sheet.ProjectedPoints[1].X - sheet.ProjectedPoints[0].X) * 200 / Math.PI;
 
-                    output.Append("TEXT ");
-                    output.Append(string.Format("{0},{1} ", sheet.ProjectedPoints[3].Y + 25, sheet.ProjectedPoints[3].X + 25));
-                    output.AppendFormat("{0} ", scale / 20);
-                    output.AppendFormat("{0} ", textRotationAngle);
-                    output.AppendLine(string.Format("{0}", sheet.Number));
+                    CoordinateSystem2005.output.Append("TEXT ");
+                    CoordinateSystem2005.output.Append(string.Format("{0},{1} ", sheet.ProjectedPoints[3].Y + 25, sheet.ProjectedPoints[3].X + 25));
+                    CoordinateSystem2005.output.AppendFormat("{0} ", scale / 20);
+                    CoordinateSystem2005.output.AppendFormat("{0} ", textRotationAngle);
+                    CoordinateSystem2005.output.AppendLine(string.Format("{0}", sheet.Number));
 
                     CoordinateSystem2005.Sheets.Add(sheet);
                 }
             }
-
-            return output.ToString();
         }
     }
 }
