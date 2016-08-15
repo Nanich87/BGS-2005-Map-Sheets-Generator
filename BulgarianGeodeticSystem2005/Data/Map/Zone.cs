@@ -132,41 +132,130 @@
                 throw new ArgumentOutOfRangeException("column", "Invalid column");
             }
 
-            int sheetNumber100000 = 0;
-            int sheetNumber5000 = 0;
-            int sheetNumber1000 = 0;
-
-            int a = 0;
-            int b = 0;
-
             switch (mapScale)
             {
                 case 1000:
-                    sheetNumber100000 = (int)((12 * Math.Ceiling(row / 80.0)) + Math.Ceiling(column / 80.0) - 12);
-                    sheetNumber5000 = (int)((16 * Math.Ceiling(row / 5.0)) + Math.Ceiling(column / 5.0) - 16);
+                    {
+                        // Sheet number 100000
 
-                    a = row % 5 > 0 ? row % 5 : 5;
-                    b = column % 5 > 0 ? column % 5 : 5;
+                        int sheetNumber100000 = Zone.GetSheetIndex((int)Math.Ceiling(row / 80.0), (int)Math.Ceiling(column / 80.0), 12);
 
-                    sheetNumber1000 = (5 * a) + b - 5;
+                        // Sheet number 5000
 
-                    return string.Format("{0}-{1}-{2}", sheetNumber100000, sheetNumber5000, Zone.sheetNomenclature[sheetNumber1000]);
+                        int row100000 = Zone.GetRowBySheetIndex(sheetNumber100000, 12);
+                        int column100000 = Zone.GetColumnBySheetIndex(sheetNumber100000, 12);
+
+                        int reducedRow100000 = row - (row100000 - 1) * 16 * 5;
+                        int reducedColumn100000 = column - (column100000 - 1) * 16 * 5;
+
+                        int sheetNumber5000 = Zone.GetSheetIndex((int)Math.Ceiling(reducedRow100000 / 5.0), (int)Math.Ceiling(reducedColumn100000 / 5.0), 16);
+
+                        // Sheet number 1000
+
+                        int row1000 = Zone.ReduceChildField(row, 5);
+                        int column1000 = Zone.ReduceChildField(column, 5);
+
+                        int sheetNumber1000 = Zone.GetSheetIndex(row1000, column1000, 5);
+
+                        return string.Format("{0}-{1}-{2}", sheetNumber100000, sheetNumber5000, Zone.sheetNomenclature[sheetNumber1000]);
+                    }
                 case 5000:
-                    sheetNumber100000 = (int)((12 * Math.Ceiling(row / 16.0)) + Math.Ceiling(column / 16.0) - 12);
+                    {
+                        int row100000 = Zone.ReduceParentField(row, 16);
+                        int column100000 = Zone.ReduceParentField(column, 16);
 
-                    a = row % 16 > 0 ? row % 16 : 16;
-                    b = column % 16 > 0 ? column % 16 : 16;
+                        int sheetNumber100000 = Zone.GetSheetIndex(row100000, column100000, 12);
 
-                    sheetNumber5000 = (16 * a) + b - 16;
+                        int reducedRow = Zone.ReduceChildField(row, 16);
+                        int reducedColumn = Zone.ReduceChildField(column, 16);
 
-                    return string.Format("{0}-{1}", sheetNumber100000, sheetNumber5000);
+                        int sheetNumber5000 = Zone.GetSheetIndex(reducedRow, reducedColumn, 16);
+
+                        return string.Format("{0}-{1}", sheetNumber100000, sheetNumber5000);
+                    }
                 case 100000:
-                    sheetNumber100000 = (12 * row) + column - 12;
-
-                    return string.Format("{0}", sheetNumber100000);
+                    return string.Format("{0}", Zone.GetSheetIndex(row, column, 12));
                 default:
                     throw new ArgumentOutOfRangeException("scale", "Invalid scale");
             }
+        }
+
+        public static int ReduceParentField(int field, int value)
+        {
+            return (int)Math.Ceiling(field / (double)value);
+        }
+
+        public static int ReduceChildField(int field, int value)
+        {
+            return field % value > 0 ? field % value : value;
+        }
+
+        public static int GetRowBySheetIndex(int sheetIndex, int sheetSize)
+        {
+            int row = (int)Math.Ceiling(sheetIndex / (double)sheetSize);
+
+            return row;
+        }
+
+        public static int GetColumnBySheetIndex(int sheetIndex, int sheetSize)
+        {
+            int column = sheetIndex % sheetSize > 0 ? sheetIndex % sheetSize : sheetSize;
+
+            return column;
+        }
+
+        public static int GetSheetIndex(int row, int column, int sheetSize)
+        {
+            if (sheetSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("sheetSize", "Invalid sheet size!");
+            }
+
+            if (row <= 0 || row > sheetSize)
+            {
+                throw new ArgumentOutOfRangeException("row", "Invalid row!");
+            }
+
+            if (column <= 0 || column > sheetSize)
+            {
+                throw new ArgumentOutOfRangeException("column", "Invalid column!");
+            }
+
+            int sheetIndex = (row * sheetSize) + column - sheetSize;
+
+            return sheetIndex;
+        }
+
+        public static int GetSheetSubIndex(int parentRow, int parentColumn, int childSheetSize)
+        {
+            if (childSheetSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("sheetSize", "Invalid sheet size!");
+            }
+
+            if (parentRow <= 0)
+            {
+                throw new ArgumentOutOfRangeException("row", "Invalid row!");
+            }
+
+            if (parentColumn <= 0)
+            {
+                throw new ArgumentOutOfRangeException("column", "Invalid column!");
+            }
+
+            double reducedChildRow = parentRow / childSheetSize;
+            reducedChildRow = Math.Ceiling(reducedChildRow);
+
+            int childRow = (int)(parentRow - (childSheetSize * (reducedChildRow - 1)));
+
+            double reducedChildColumn = parentColumn / childSheetSize;
+            reducedChildColumn = Math.Ceiling(reducedChildColumn);
+
+            int childColumn = (int)(parentColumn - (childSheetSize * (reducedChildColumn - 1)));
+
+            int sheetIndex = (childRow * childSheetSize) + childColumn - childSheetSize;
+
+            return sheetIndex;
         }
     }
 }
