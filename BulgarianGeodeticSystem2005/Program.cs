@@ -11,7 +11,7 @@
     {
         private static void Main(string[] args)
         {
-            Console.Title = "БГС 2005 - генератор на картни листове";
+            Console.Title = "Bulgarian Geodetic System 2005";
 
             bool waitForInput = true;
 
@@ -65,21 +65,24 @@
                         CoordinateSystem2005.GenerateSheets(zone, inputMapScale);
 
                         Console.Write("Въведете име на изходния SCR файл или натиснете Enter за да продължите: ");
-                        string outputFileName = Console.ReadLine();
+                        string scriptFileName = Console.ReadLine();
 
-                        if (outputFileName != string.Empty)
+                        if (scriptFileName != string.Empty)
                         {
                             string fileContent = CoordinateSystem2005.ExportSheets();
 
-                            File.WriteAllText(string.Format("{0}.scr", outputFileName), fileContent.ToString());
+                            File.WriteAllText(string.Format("{0}.scr", scriptFileName), fileContent.ToString());
+
+                            Console.WriteLine(string.Format("Файлът {0}.scr беше записан успешно на диска.", scriptFileName));
                         }
 
+                        Console.WriteLine("ПРИВЪРЗВАНЕ НА ТОЧКИ КЪМ КАРТНИ ЛИСТОВЕ");
                         Console.Write("Въведете име на входен файл с формат PNE(ZD) или натиснете Enter за да продължите: ");
-                        string inputFileName = Console.ReadLine();
+                        string pointFileName = Console.ReadLine();
 
-                        if (File.Exists(inputFileName))
+                        if (File.Exists(pointFileName))
                         {
-                            var points = CoordinateSystem2005.OpenFile(inputFileName);
+                            var points = CoordinateSystem2005.OpenFile(pointFileName);
 
                             foreach (var point in points)
                             {
@@ -94,7 +97,11 @@
 
                             string pointContent = string.Join(Environment.NewLine, points.Select(p => p.Description));
 
-                            File.WriteAllText(string.Format("{0}.txt", outputFileName), pointContent);
+                            string newPointFileName = string.Format("{0}_sheets.txt", Path.GetFileNameWithoutExtension(pointFileName));
+
+                            File.WriteAllText(string.Format("{0}.txt", newPointFileName), pointContent);
+
+                            Console.WriteLine(string.Format("Файлът {0} беше записан успешно на диска.", newPointFileName));
                         }
 
                         break;
