@@ -1,5 +1,7 @@
 # BGS-2005-Map-Sheets-Generator
 
+![alt tag](http://sixeightone.eu/wp-content/uploads/2016/06/bgs2005-interface.png)
+
 ### License
 
 Code by Nanko Geshkov. Copyright 2016 Nanko Geshkov [http://sixeightone.eu](http://sixeightone.eu)
