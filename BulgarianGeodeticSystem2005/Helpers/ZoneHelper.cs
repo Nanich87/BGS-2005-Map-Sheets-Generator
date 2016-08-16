@@ -4,7 +4,7 @@
 
     internal static class ZoneHelper
     {
-        public static int GetZoneSizeByMapScale(int mapScale)
+        public static int GetGridSizeByMapScale(int mapScale)
         {
             switch (mapScale)
             {
@@ -20,29 +20,29 @@
             }
         }
 
-        public static bool IsValidSheetPosition(int mapScale, int sheetPosition)
+        public static bool InsideGrid(int mapScale, int gridPosition)
         {
             switch (mapScale)
             {
                 case 1000:
-                    return sheetPosition > 0 && sheetPosition <= 960;
+                    return gridPosition > 0 && gridPosition <= 960;
                 case 5000:
-                    return sheetPosition > 0 && sheetPosition <= 192;
+                    return gridPosition > 0 && gridPosition <= 192;
                 case 100000:
-                    return sheetPosition > 0 && sheetPosition <= 12;
+                    return gridPosition > 0 && gridPosition <= 12;
                 default:
                     return false;
             }
         }
 
-        public static int ReduceParentField(int field, int value)
+        public static int GetParentField(int fieldIndex, int gridSize)
         {
-            return (int)Math.Ceiling(field / (double)value);
+            return (int)Math.Ceiling(fieldIndex / (double)gridSize);
         }
 
-        public static int ReduceChildField(int field, int value)
+        public static int GetChildField(int fieldIndex, int gridSize)
         {
-            return field % value > 0 ? field % value : value;
+            return fieldIndex % gridSize > 0 ? fieldIndex % gridSize : gridSize;
         }
 
         public static int GetRowByGridIndex(int gridIndex, int gridSize)
@@ -107,38 +107,6 @@
             }
 
             int gridIndex = (row * gridSize) + column - gridSize;
-
-            return gridIndex;
-        }
-
-        public static int GetChildGridIndex(int parentRow, int parentColumn, int childGridSize)
-        {
-            if (childGridSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException("childGridSize", "Invalid child grid size!");
-            }
-
-            if (parentRow <= 0)
-            {
-                throw new ArgumentOutOfRangeException("parentRow", "Invalid parent row!");
-            }
-
-            if (parentColumn <= 0)
-            {
-                throw new ArgumentOutOfRangeException("parentColumn", "Invalid parent column!");
-            }
-
-            double reducedChildRow = parentRow / childGridSize;
-            reducedChildRow = Math.Ceiling(reducedChildRow);
-
-            int childRow = (int)(parentRow - (childGridSize * (reducedChildRow - 1)));
-
-            double reducedChildColumn = parentColumn / childGridSize;
-            reducedChildColumn = Math.Ceiling(reducedChildColumn);
-
-            int childColumn = (int)(parentColumn - (childGridSize * (reducedChildColumn - 1)));
-
-            int gridIndex = (childRow * childGridSize) + childColumn - childGridSize;
 
             return gridIndex;
         }

@@ -31,9 +31,30 @@
         [TestCase(5000, 192)]
         [TestCase(25000, 0)]
         [TestCase(100000, 12)]
-        public void GetZoneSizeByMapScale_ShouldReturnCorrectResult(int mapScale, int zoneSize)
+        public void GetGridSizeByMapScale_ShouldReturnCorrectResult(int mapScale, int gridSize)
         {
-            Assert.AreEqual(zoneSize, ZoneHelper.GetZoneSizeByMapScale(mapScale));
+            Assert.AreEqual(gridSize, ZoneHelper.GetGridSizeByMapScale(mapScale));
+        }
+
+        [TestCase(1000, -1, false)]
+        [TestCase(1000, 0, false)]
+        [TestCase(1000, 1, true)]
+        [TestCase(1000, 960, true)]
+        [TestCase(1000, 961, false)]
+        [TestCase(5000, -1, false)]
+        [TestCase(5000, 0, false)]
+        [TestCase(5000, 1, true)]
+        [TestCase(5000, 192, true)]
+        [TestCase(5000, 193, false)]
+        [TestCase(25000, 1, false)]
+        [TestCase(100000, -1, false)]
+        [TestCase(100000, 0, false)]
+        [TestCase(100000, 1, true)]
+        [TestCase(100000, 12, true)]
+        [TestCase(100000, 13, false)]
+        public void InsideGrid_ShouldReturnCorrectResult(int mapScale, int gridPosition, bool result)
+        {
+            Assert.AreEqual(result, ZoneHelper.InsideGrid(mapScale, gridPosition));
         }
 
         [TestCase(1000, 1, 1, "1-1-I")]
@@ -41,6 +62,9 @@
         [TestCase(1000, 81, 960, "24-16-V")]
         [TestCase(1000, 960, 960, "144-256-XXV")]
         [TestCase(5000, 1, 32, "2-16")]
+        [TestCase(5000, 16, 16, "1-256")]
+        [TestCase(5000, 17, 16, "13-16")]
+        [TestCase(5000, 192, 192, "144-256")]
         [TestCase(100000, 12, 12, "144")]
         public void GetSheetNumber_ShouldReturnCorrectResult(int mapScale, int row, int column, string sheetNumber)
         {

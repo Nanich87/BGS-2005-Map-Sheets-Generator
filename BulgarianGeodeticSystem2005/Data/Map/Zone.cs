@@ -93,12 +93,12 @@
 
         public static string GetSheetNumber(int mapScale, int row, int column)
         {
-            if (!ZoneHelper.IsValidSheetPosition(mapScale, row))
+            if (!ZoneHelper.InsideGrid(mapScale, row))
             {
                 throw new ArgumentOutOfRangeException("row", "Invalid row!");
             }
 
-            if (!ZoneHelper.IsValidSheetPosition(mapScale, column))
+            if (!ZoneHelper.InsideGrid(mapScale, column))
             {
                 throw new ArgumentOutOfRangeException("column", "Invalid column!");
             }
@@ -108,24 +108,25 @@
                 case 1000:
                     {
                         // Sheet number 100000
-                        int row100000 = (int)Math.Ceiling(row / 80.0);
-                        int column100000 = (int)Math.Ceiling(column / 80.0);
-
-                        int sheetNumber100000 = ZoneHelper.GetGridIndex(row100000, column100000, 12);
-
-                        // Sheet number 5000
+                        int row100000 = ZoneHelper.GetParentField(row, 80);
+                        int column100000 = ZoneHelper.GetParentField(column, 80);
 
                         int reducedRow100000 = row - ((row100000 - 1) * 16 * 5);
                         int reducedColumn100000 = column - ((column100000 - 1) * 16 * 5);
 
-                        int row5000 = (int)Math.Ceiling(reducedRow100000 / 5.0);
-                        int column5000 = (int)Math.Ceiling(reducedColumn100000 / 5.0);
+                        int sheetNumber100000 = ZoneHelper.GetGridIndex(row100000, column100000, 12);
+
+                        // Parend Grid:
+                        // Sheet number 5000
+                        int row5000 = ZoneHelper.GetParentField(reducedRow100000, 5);
+                        int column5000 = ZoneHelper.GetParentField(reducedColumn100000, 5);
 
                         int sheetNumber5000 = ZoneHelper.GetGridIndex(row5000, column5000, 16);
 
+                        // Child Grid:
                         // Sheet number 1000
-                        int row1000 = ZoneHelper.ReduceChildField(row, 5);
-                        int column1000 = ZoneHelper.ReduceChildField(column, 5);
+                        int row1000 = ZoneHelper.GetChildField(row, 5);
+                        int column1000 = ZoneHelper.GetChildField(column, 5);
 
                         int sheetNumber1000 = ZoneHelper.GetGridIndex(row1000, column1000, 5);
 
@@ -134,21 +135,31 @@
 
                 case 5000:
                     {
-                        int row100000 = ZoneHelper.ReduceParentField(row, 16);
-                        int column100000 = ZoneHelper.ReduceParentField(column, 16);
+                        // Parent Grid: 
+                        // Sheet number 100000
+                        int row100000 = ZoneHelper.GetParentField(row, 16);
+                        int column100000 = ZoneHelper.GetParentField(column, 16);
 
                         int sheetNumber100000 = ZoneHelper.GetGridIndex(row100000, column100000, 12);
 
-                        int reducedRow = ZoneHelper.ReduceChildField(row, 16);
-                        int reducedColumn = ZoneHelper.ReduceChildField(column, 16);
+                        // Child Grid: 
+                        // Sheet number 5000
+                        int row5000 = ZoneHelper.GetChildField(row, 16);
+                        int column5000 = ZoneHelper.GetChildField(column, 16);
 
-                        int sheetNumber5000 = ZoneHelper.GetGridIndex(reducedRow, reducedColumn, 16);
+                        int sheetNumber5000 = ZoneHelper.GetGridIndex(row5000, column5000, 16);
 
                         return string.Format("{0}-{1}", sheetNumber100000, sheetNumber5000);
                     }
 
                 case 100000:
-                    return string.Format("{0}", ZoneHelper.GetGridIndex(row, column, 12));
+                    {
+                        // Sheet number 100000
+                        int sheetNumber100000 = ZoneHelper.GetGridIndex(row, column, 12);
+
+                        return string.Format("{0}", sheetNumber100000);
+                    }
+
                 default:
                     throw new ArgumentOutOfRangeException("scale", "Invalid scale!");
             }
