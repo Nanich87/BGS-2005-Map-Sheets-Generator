@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using BulgarianGeodeticSystem2005.Contracts;
+    using Contracts;
     using Helpers;
 
     internal class Zone : IZone
@@ -95,12 +95,12 @@
         {
             if (!ZoneHelper.IsValidSheetPosition(mapScale, row))
             {
-                throw new ArgumentOutOfRangeException("row", "Invalid row");
+                throw new ArgumentOutOfRangeException("row", "Invalid row!");
             }
 
             if (!ZoneHelper.IsValidSheetPosition(mapScale, column))
             {
-                throw new ArgumentOutOfRangeException("column", "Invalid column");
+                throw new ArgumentOutOfRangeException("column", "Invalid column!");
             }
 
             switch (mapScale)
@@ -108,46 +108,49 @@
                 case 1000:
                     {
                         // Sheet number 100000
+                        int row100000 = (int)Math.Ceiling(row / 80.0);
+                        int column100000 = (int)Math.Ceiling(column / 80.0);
 
-                        int sheetNumber100000 = ZoneHelper.GetSheetIndex((int)Math.Ceiling(row / 80.0), (int)Math.Ceiling(column / 80.0), 12);
+                        int sheetNumber100000 = ZoneHelper.GetGridIndex(row100000, column100000, 12);
 
                         // Sheet number 5000
 
-                        int row100000 = ZoneHelper.GetRowBySheetIndex(sheetNumber100000, 12);
-                        int column100000 = ZoneHelper.GetColumnBySheetIndex(sheetNumber100000, 12);
+                        int reducedRow100000 = row - ((row100000 - 1) * 16 * 5);
+                        int reducedColumn100000 = column - ((column100000 - 1) * 16 * 5);
 
-                        int reducedRow100000 = row - (row100000 - 1) * 16 * 5;
-                        int reducedColumn100000 = column - (column100000 - 1) * 16 * 5;
+                        int row5000 = (int)Math.Ceiling(reducedRow100000 / 5.0);
+                        int column5000 = (int)Math.Ceiling(reducedColumn100000 / 5.0);
 
-                        int sheetNumber5000 = ZoneHelper.GetSheetIndex((int)Math.Ceiling(reducedRow100000 / 5.0), (int)Math.Ceiling(reducedColumn100000 / 5.0), 16);
+                        int sheetNumber5000 = ZoneHelper.GetGridIndex(row5000, column5000, 16);
 
                         // Sheet number 1000
-
                         int row1000 = ZoneHelper.ReduceChildField(row, 5);
                         int column1000 = ZoneHelper.ReduceChildField(column, 5);
 
-                        int sheetNumber1000 = ZoneHelper.GetSheetIndex(row1000, column1000, 5);
+                        int sheetNumber1000 = ZoneHelper.GetGridIndex(row1000, column1000, 5);
 
                         return string.Format("{0}-{1}-{2}", sheetNumber100000, sheetNumber5000, Zone.sheetNomenclature[sheetNumber1000]);
                     }
+
                 case 5000:
                     {
                         int row100000 = ZoneHelper.ReduceParentField(row, 16);
                         int column100000 = ZoneHelper.ReduceParentField(column, 16);
 
-                        int sheetNumber100000 = ZoneHelper.GetSheetIndex(row100000, column100000, 12);
+                        int sheetNumber100000 = ZoneHelper.GetGridIndex(row100000, column100000, 12);
 
                         int reducedRow = ZoneHelper.ReduceChildField(row, 16);
                         int reducedColumn = ZoneHelper.ReduceChildField(column, 16);
 
-                        int sheetNumber5000 = ZoneHelper.GetSheetIndex(reducedRow, reducedColumn, 16);
+                        int sheetNumber5000 = ZoneHelper.GetGridIndex(reducedRow, reducedColumn, 16);
 
                         return string.Format("{0}-{1}", sheetNumber100000, sheetNumber5000);
                     }
+
                 case 100000:
-                    return string.Format("{0}", ZoneHelper.GetSheetIndex(row, column, 12));
+                    return string.Format("{0}", ZoneHelper.GetGridIndex(row, column, 12));
                 default:
-                    throw new ArgumentOutOfRangeException("scale", "Invalid scale");
+                    throw new ArgumentOutOfRangeException("scale", "Invalid scale!");
             }
         }
     }

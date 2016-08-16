@@ -1,10 +1,6 @@
 ﻿namespace BulgarianGeodeticSystem2005.Helpers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     internal static class ZoneHelper
     {
@@ -20,7 +16,6 @@
                     return 12;
                 default:
                     // throw new ArgumentOutOfRangeException("mapScale", "Invalid map scale!");
-
                     return 0;
             }
         }
@@ -50,72 +45,102 @@
             return field % value > 0 ? field % value : value;
         }
 
-        public static int GetRowBySheetIndex(int sheetIndex, int sheetSize)
+        public static int GetRowByGridIndex(int gridIndex, int gridSize)
         {
-            int row = (int)Math.Ceiling(sheetIndex / (double)sheetSize);
+            if (gridSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("gridSize", "Invalid grid size!");
+            }
+
+            if (gridIndex <= 0)
+            {
+                throw new ArgumentOutOfRangeException("gridIndex", "Invalid grid index!");
+            }
+
+            if (gridIndex > Math.Pow(gridSize, 2))
+            {
+                throw new ArgumentOutOfRangeException("gridIndex", "Invalid grid index!");
+            }
+
+            int row = (int)Math.Ceiling(gridIndex / (double)gridSize);
 
             return row;
         }
 
-        public static int GetColumnBySheetIndex(int sheetIndex, int sheetSize)
+        public static int GetColumnByGridIndex(int gridIndex, int gridSize)
         {
-            int column = sheetIndex % sheetSize > 0 ? sheetIndex % sheetSize : sheetSize;
+            if (gridSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("gridSize", "Invalid grid size!");
+            }
+
+            if (gridIndex <= 0)
+            {
+                throw new ArgumentOutOfRangeException("gridIndex", "Invalid grid index!");
+            }
+
+            if (gridIndex > Math.Pow(gridSize, 2))
+            {
+                throw new ArgumentOutOfRangeException("gridIndex", "Invalid grid index!");
+            }
+
+            int column = gridIndex % gridSize > 0 ? gridIndex % gridSize : gridSize;
 
             return column;
         }
 
-        public static int GetSheetIndex(int row, int column, int sheetSize)
+        public static int GetGridIndex(int row, int column, int gridSize)
         {
-            if (sheetSize <= 0)
+            if (gridSize <= 0)
             {
-                throw new ArgumentOutOfRangeException("sheetSize", "Invalid sheet size!");
+                throw new ArgumentOutOfRangeException("gridSize", "Invalid grid size!");
             }
 
-            if (row <= 0 || row > sheetSize)
+            if (row <= 0 || row > gridSize)
             {
                 throw new ArgumentOutOfRangeException("row", "Invalid row!");
             }
 
-            if (column <= 0 || column > sheetSize)
+            if (column <= 0 || column > gridSize)
             {
                 throw new ArgumentOutOfRangeException("column", "Invalid column!");
             }
 
-            int sheetIndex = (row * sheetSize) + column - sheetSize;
+            int gridIndex = (row * gridSize) + column - gridSize;
 
-            return sheetIndex;
+            return gridIndex;
         }
 
-        public static int GetSheetSubIndex(int parentRow, int parentColumn, int childSheetSize)
+        public static int GetChildGridIndex(int parentRow, int parentColumn, int childGridSize)
         {
-            if (childSheetSize <= 0)
+            if (childGridSize <= 0)
             {
-                throw new ArgumentOutOfRangeException("sheetSize", "Invalid sheet size!");
+                throw new ArgumentOutOfRangeException("childGridSize", "Invalid child grid size!");
             }
 
             if (parentRow <= 0)
             {
-                throw new ArgumentOutOfRangeException("row", "Invalid row!");
+                throw new ArgumentOutOfRangeException("parentRow", "Invalid parent row!");
             }
 
             if (parentColumn <= 0)
             {
-                throw new ArgumentOutOfRangeException("column", "Invalid column!");
+                throw new ArgumentOutOfRangeException("parentColumn", "Invalid parent column!");
             }
 
-            double reducedChildRow = parentRow / childSheetSize;
+            double reducedChildRow = parentRow / childGridSize;
             reducedChildRow = Math.Ceiling(reducedChildRow);
 
-            int childRow = (int)(parentRow - (childSheetSize * (reducedChildRow - 1)));
+            int childRow = (int)(parentRow - (childGridSize * (reducedChildRow - 1)));
 
-            double reducedChildColumn = parentColumn / childSheetSize;
+            double reducedChildColumn = parentColumn / childGridSize;
             reducedChildColumn = Math.Ceiling(reducedChildColumn);
 
-            int childColumn = (int)(parentColumn - (childSheetSize * (reducedChildColumn - 1)));
+            int childColumn = (int)(parentColumn - (childGridSize * (reducedChildColumn - 1)));
 
-            int sheetIndex = (childRow * childSheetSize) + childColumn - childSheetSize;
+            int gridIndex = (childRow * childGridSize) + childColumn - childGridSize;
 
-            return sheetIndex;
+            return gridIndex;
         }
     }
 }

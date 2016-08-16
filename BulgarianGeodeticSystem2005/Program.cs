@@ -67,7 +67,7 @@
                         Console.Write("Въведете име на изходния SCR файл или натиснете Enter за да продължите: ");
                         string outputFileName = Console.ReadLine();
 
-                        if (File.Exists(outputFileName))
+                        if (outputFileName != string.Empty)
                         {
                             string fileContent = CoordinateSystem2005.ExportSheets();
 

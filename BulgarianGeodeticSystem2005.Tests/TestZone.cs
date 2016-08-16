@@ -1,13 +1,32 @@
 ﻿namespace Tests
 {
     using System;
-    using System.Linq;
     using BulgarianGeodeticSystem2005.Data.Map;
     using NUnit.Framework;
     using BulgarianGeodeticSystem2005.Helpers;
 
     internal class TestZone
     {
+        [TestCase(-1, 4)]
+        [TestCase(0, 4)]
+        [TestCase(8, -1)]
+        [TestCase(8, 0)]
+        [TestCase(17, 4)]
+        public void GetRowByGridIndex_ThrowsArgumentOutOfRangeException_WhenInvalidArgumentPassed(int gridIndex, int gridSize)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => ZoneHelper.GetRowByGridIndex(gridIndex, gridSize));
+        }
+
+        [TestCase(-1, 4)]
+        [TestCase(0, 4)]
+        [TestCase(8, -1)]
+        [TestCase(8, 0)]
+        [TestCase(17, 4)]
+        public void GetColumnByGridIndex_ThrowsArgumentOutOfRangeException_WhenInvalidArgumentPassed(int gridIndex, int gridSize)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => ZoneHelper.GetColumnByGridIndex(gridIndex, gridSize));
+        }
+
         [TestCase(1000, 960)]
         [TestCase(5000, 192)]
         [TestCase(25000, 0)]
@@ -44,9 +63,9 @@
         [TestCase(5, 11, 10)]
         [TestCase(5, 4, -2)]
         [TestCase(5, 4, 0)]
-        public void GetSheetIndex_ThrowsArgumentOutOfRangeException_WhenInvalidArgumentPassed(int row, int column, int sheetSize)
+        public void GetGridIndex_ThrowsArgumentOutOfRangeException_WhenInvalidArgumentPassed(int row, int column, int gridSize)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Zone.GetSheetNumber(row, column, sheetSize));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ZoneHelper.GetGridIndex(row, column, gridSize));
         }
     }
 }
