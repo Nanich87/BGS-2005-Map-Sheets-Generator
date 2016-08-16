@@ -47,6 +47,7 @@
     <Compile Include="Data\Point\LatLonPoint.cs" />
     <Compile Include="Contracts\IZone.cs" />
     <Compile Include="Factories\ZoneFactory.cs" />
+    <Compile Include="Helpers\ZoneHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Data\Map\Sheet.cs" />

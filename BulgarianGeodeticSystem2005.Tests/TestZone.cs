@@ -4,6 +4,7 @@
     using System.Linq;
     using BulgarianGeodeticSystem2005.Data.Map;
     using NUnit.Framework;
+    using BulgarianGeodeticSystem2005.Helpers;
 
     internal class TestZone
     {
@@ -13,7 +14,7 @@
         [TestCase(100000, 12)]
         public void GetZoneSizeByMapScale_ShouldReturnCorrectResult(int mapScale, int zoneSize)
         {
-            Assert.AreEqual(zoneSize, Zone.GetZoneSizeByMapScale(mapScale));
+            Assert.AreEqual(zoneSize, ZoneHelper.GetZoneSizeByMapScale(mapScale));
         }
 
         [TestCase(1000, 1, 1, "1-1-I")]

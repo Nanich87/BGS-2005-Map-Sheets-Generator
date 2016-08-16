@@ -8,6 +8,7 @@
     using BulgarianGeodeticSystem2005.Contracts;
     using Data.Map;
     using Data.Point;
+    using Helpers;
 
     internal static class CoordinateSystem2005
     {
@@ -114,7 +115,7 @@
             CoordinateSystem2005.output.AppendLine("-UNITS 2 4 3 4 300 Y");
             CoordinateSystem2005.output.AppendLine("-UNITS 2 4 3 4 300 Y");
 
-            int zoneSize = Zone.GetZoneSizeByMapScale(scale);
+            int zoneSize = ZoneHelper.GetZoneSizeByMapScale(scale);
 
             if (zoneSize == 0)
             {
