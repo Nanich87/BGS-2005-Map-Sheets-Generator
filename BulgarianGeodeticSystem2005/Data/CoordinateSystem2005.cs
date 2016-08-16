@@ -184,7 +184,7 @@
 
                     CoordinateSystem2005.output.Append("TEXT ");
                     CoordinateSystem2005.output.Append(string.Format("{0},{1} ", sheet.ProjectedPoints[3].Y + 25, sheet.ProjectedPoints[3].X + 25));
-                    CoordinateSystem2005.output.AppendFormat("{0} ", scale / 20);
+                    CoordinateSystem2005.output.AppendFormat("{0} ", scale / 25);
                     CoordinateSystem2005.output.AppendFormat("{0} ", textRotationAngle);
                     CoordinateSystem2005.output.AppendLine(string.Format("{0}", sheet.Number));
 
