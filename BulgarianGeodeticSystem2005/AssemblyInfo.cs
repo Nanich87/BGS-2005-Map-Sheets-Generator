@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CS2005")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Bulgarian Geodetic System 2005")]
+[assembly: AssemblyDescription("Bulgarian Geodetic System 2005")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CS2005")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("SixEightOne.eu")]
+[assembly: AssemblyProduct("BGS2005")]
+[assembly: AssemblyCopyright("Copyright © 2016 by SixEightOne.eu")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("Tests")]
