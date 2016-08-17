@@ -6,9 +6,9 @@
     using System.Text;
     using System.Text.RegularExpressions;
     using Contracts;
+    using Helpers;
     using Map;
     using Point;
-    using Helpers;
 
     internal static class CoordinateSystem2005
     {

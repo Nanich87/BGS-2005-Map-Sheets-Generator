@@ -82,8 +82,8 @@
             {
                 int j = i + 1 == 4 ? 0 : i + 1;
 
-                if ((int)((this.ProjectedPoints[j].X - this.ProjectedPoints[i].X) * (point.Y - this.ProjectedPoints[i].Y)
-                      - (point.X - this.ProjectedPoints[i].X) * (this.ProjectedPoints[j].Y - this.ProjectedPoints[i].Y)) < 0.000)
+                if ((int)(((this.ProjectedPoints[j].X - this.ProjectedPoints[i].X) * (point.Y - this.ProjectedPoints[i].Y))
+                      - ((point.X - this.ProjectedPoints[i].X) * (this.ProjectedPoints[j].Y - this.ProjectedPoints[i].Y))) < 0.000)
                 {
                     return false;
                 }

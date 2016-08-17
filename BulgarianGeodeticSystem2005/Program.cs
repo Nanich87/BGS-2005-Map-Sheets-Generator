@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Text;
     using Contracts;
-    using Factories;
     using Data;
+    using Factories;
 
     internal class Program
     {
@@ -91,11 +91,10 @@
 
                                 foreach (var sheet in CoordinateSystem2005.Sheets)
                                 {
-                                    //if (sheet.ContainsPoint(point))
-                                    //{
-                                    //    sheets.AppendFormat("{0} ", sheet.Number);
-                                    //}
-
+                                    // if (sheet.ContainsPoint(point))
+                                    // {
+                                    //     sheets.AppendFormat("{0} ", sheet.Number);
+                                    // }
                                     if (sheet.IsPointInsideSheet(point))
                                     {
                                         sheets.AppendFormat("{0} ", sheet.Number);
