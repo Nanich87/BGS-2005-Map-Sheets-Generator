@@ -5,9 +5,9 @@
     using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
-    using BulgarianGeodeticSystem2005.Contracts;
-    using Data.Map;
-    using Data.Point;
+    using Contracts;
+    using Map;
+    using Point;
     using Helpers;
 
     internal static class CoordinateSystem2005
