@@ -3,8 +3,9 @@
     using System;
     using System.IO;
     using System.Linq;
-    using BulgarianGeodeticSystem2005.Contracts;
-    using BulgarianGeodeticSystem2005.Factories;
+    using System.Text;
+    using Contracts;
+    using Factories;
     using Data;
 
     internal class Program
@@ -86,13 +87,22 @@
 
                             foreach (var point in points)
                             {
+                                StringBuilder sheets = new StringBuilder();
+
                                 foreach (var sheet in CoordinateSystem2005.Sheets)
                                 {
-                                    if (sheet.ContainsPoint(point))
+                                    //if (sheet.ContainsPoint(point))
+                                    //{
+                                    //    sheets.AppendFormat("{0} ", sheet.Number);
+                                    //}
+
+                                    if (sheet.IsPointInsideSheet(point))
                                     {
-                                        point.Description = string.Format("{0} {1}", point.Description, sheet.Number);
+                                        sheets.AppendFormat("{0} ", sheet.Number);
                                     }
                                 }
+
+                                point.Description = string.Format("{0} {1}", point.Description, sheets.ToString());
                             }
 
                             string pointContent = string.Join(Environment.NewLine, points.Select(p => p.Description));

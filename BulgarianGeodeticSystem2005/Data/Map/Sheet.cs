@@ -61,7 +61,8 @@
 
             for (int i = 0; i < this.ProjectedPoints.Count(); i++)
             {
-                if ((this.ProjectedPoints[i].Y < point.Y && this.ProjectedPoints[j].Y >= point.Y) || (this.ProjectedPoints[j].Y < point.Y && this.ProjectedPoints[i].Y >= point.Y))
+                if ((this.ProjectedPoints[i].Y < point.Y && this.ProjectedPoints[j].Y >= point.Y) ||
+                    (this.ProjectedPoints[j].Y < point.Y && this.ProjectedPoints[i].Y >= point.Y))
                 {
                     if ((this.ProjectedPoints[i].X + (((point.Y - this.ProjectedPoints[i].Y) / (this.ProjectedPoints[j].Y - this.ProjectedPoints[i].Y)) * (this.ProjectedPoints[j].X - this.ProjectedPoints[i].X))) < point.X)
                     {
@@ -73,6 +74,31 @@
             }
 
             return result;
+        }
+
+        public bool IsPointInsideSheet(XYPoint point)
+        {
+            for (int i = 0; i < this.ProjectedPoints.Length; i++)
+            {
+                if (i < this.ProjectedPoints.Length - 1)
+                {
+                    if ((int)((this.ProjectedPoints[i + 1].X - this.ProjectedPoints[i].X) * (point.Y - this.ProjectedPoints[i].Y) 
+                        - (point.X - this.ProjectedPoints[i].X) * (this.ProjectedPoints[i + 1].Y - this.ProjectedPoints[i].Y)) < 0.000)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if ((int)((this.ProjectedPoints[0].X - this.ProjectedPoints[i].X) * (point.Y - this.ProjectedPoints[i].Y) 
+                        - (point.X - this.ProjectedPoints[i].X) * (this.ProjectedPoints[0].Y - this.ProjectedPoints[i].Y)) < 0.000)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
